@@ -40,6 +40,10 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * @param vehicleRegNumber
+     * @return
+     */
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;

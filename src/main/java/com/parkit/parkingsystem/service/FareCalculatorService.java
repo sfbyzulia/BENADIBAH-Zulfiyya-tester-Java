@@ -14,7 +14,14 @@ public class FareCalculatorService {
         long outTimeMillis = ticket.getOutTime().getTime();
         double duration = (outTimeMillis - inTimeMillis) / 3600000.0;
 
-        switch (ticket.getParkingSpot().getParkingType()){
+        // Free parking for less than 30 minutes
+        if (duration <= 0.5) {
+            ticket.setPrice(0);
+            return;
+        }
+
+    if (ticket.getParkingSpot() !=null && ticket.getParkingSpot().getParkingType() !=null) {
+        switch (ticket.getParkingSpot().getParkingType()) {
             case CAR: 
                 ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
                 break;
@@ -24,5 +31,8 @@ public class FareCalculatorService {
         default: 
             throw new IllegalArgumentException("Unkown Parking Type");
         }
+    } else {
+        throw new IllegalArgumentException("Parking spot or type is null");
     }
+}
 }
