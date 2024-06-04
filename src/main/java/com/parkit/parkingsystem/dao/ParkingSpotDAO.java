@@ -13,19 +13,21 @@ import java.sql.ResultSet;
 
 public class ParkingSpotDAO {
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
-
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-    public int getNextAvailableSlot(ParkingType parkingType){
+    public ParkingSpot getNextAvailableSlot(ParkingType parkingType){
         Connection con = null;
-        int result=-1;
+        ParkingSpot parkingSpot = null;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_NEXT_PARKING_SPOT);
             ps.setString(1, parkingType.toString());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                result = rs.getInt(1);;
+                int parkingNumber = rs.getInt(1);
+                if (parkingNumber > 0) {
+                    parkingSpot = new ParkingSpot(parkingNumber, parkingType, true);
+                }
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -34,11 +36,10 @@ public class ParkingSpotDAO {
         }finally {
             dataBaseConfig.closeConnection(con);
         }
-        return result;
+        return parkingSpot;
     }
 
     public boolean updateParking(ParkingSpot parkingSpot){
-        //update the availability fo that parking slot
         Connection con = null;
         try {
             con = dataBaseConfig.getConnection();
@@ -55,5 +56,4 @@ public class ParkingSpotDAO {
             dataBaseConfig.closeConnection(con);
         }
     }
-
 }
