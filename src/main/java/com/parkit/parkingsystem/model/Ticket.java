@@ -7,6 +7,7 @@ public class Ticket {
     private ParkingSpot parkingSpot;
     private String vehicleRegNumber;
     private double price;
+    private String priceText;  // New field to store the price as text with EUR symbol
     private Date inTime;
     private Date outTime;
 
@@ -40,6 +41,14 @@ public class Ticket {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getPriceText() {
+        return priceText;
+    }
+
+    public void setPriceText(String priceText) {
+        this.priceText = priceText;
     }
 
     public Date getInTime() {

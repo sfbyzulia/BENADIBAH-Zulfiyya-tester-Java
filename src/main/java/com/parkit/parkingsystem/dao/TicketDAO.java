@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class TicketDAO {
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : new Timestamp(ticket.getOutTime().getTime()));
             return ps.executeUpdate() > 0;
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             logger.error("Error saving ticket", ex);
             return false;
         }
@@ -50,7 +51,7 @@ public class TicketDAO {
                 ticket.setOutTime(rs.getTimestamp(5));
                 return Optional.of(ticket);
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             logger.error("Error fetching ticket", ex);
         }
         return Optional.empty();
@@ -63,9 +64,24 @@ public class TicketDAO {
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
             return ps.executeUpdate() > 0;
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             logger.error("Error updating ticket", ex);
             return false;
         }
+    }
+
+    public int getTicketCount(String vehicleRegNumber) {
+        String sql = "SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER = ?";
+        try (Connection con = dataBaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            logger.error("Error fetching ticket count", ex);
+        }
+        return 0;
     }
 }
