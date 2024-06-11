@@ -108,7 +108,7 @@ public class ParkingService {
 <span class="fc" id="L108">                ParkingSpot parkingSpot = ticket.getParkingSpot();</span>
 <span class="fc" id="L109">                parkingSpot.setAvailable(true);</span>
 <span class="fc" id="L110">                parkingSpotDAO.updateParking(parkingSpot);</span>
-<span class="fc" id="L111">                System.out.println(&quot;Please pay the parking fare:&quot; + ticket.getPrice());</span>
+<span class="fc" id="L111">                System.out.println(&quot;Please pay the parking fare:&quot; + ticket.getPriceText());</span>
 <span class="fc" id="L112">                System.out.println(&quot;Recorded out-time for vehicle number:&quot; + ticket.getVehicleRegNumber() + &quot; is:&quot; + outTime);</span>
 <span class="fc" id="L113">            }else{</span>
 <span class="nc" id="L114">                System.out.println(&quot;Unable to update ticket information. Error occurred&quot;);</span>

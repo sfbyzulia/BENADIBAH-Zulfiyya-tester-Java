@@ -15,32 +15,31 @@ public class FareCalculatorService {
         double duration = (outTimeMillis - inTimeMillis) / 3600000.0;
 
         if (duration <= 0.5) {
-            ticket.setPrice(0);
+            ticket.setPrice(0); // First 30 minutes are free
             return;
         }
 
-        // Initialize price calculation variable
+        // Calculate price considering free 30 minutes
+        double chargeableDuration = Math.max(0, duration - 0.5);
         double price = 0;
         if (ticket.getParkingSpot() != null && ticket.getParkingSpot().getParkingType() != null) {
             switch (ticket.getParkingSpot().getParkingType()) {
                 case CAR:
-                    price = duration * Fare.CAR_RATE_PER_HOUR;
+                    price = chargeableDuration * Fare.CAR_RATE_PER_HOUR;
                     break;
                 case BIKE:
-                    price = duration * Fare.BIKE_RATE_PER_HOUR;
+                    price = chargeableDuration * Fare.BIKE_RATE_PER_HOUR;
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown Parking Type");
             }
 
-            // Apply discount if applicable
             if (discount) {
                 price *= 0.95; // Apply 5% discount
             }
-            
- // Round the price to 2 decimal places and format with EUR
- price = Math.round(price * 100) / 100.0;
- ticket.setPriceText(String.format("%.2f EUR", price)); // Set the formatted price with EUR
+
+            price = Math.round(price * 100) / 100.0; // Round the price to 2 decimal places
+            ticket.setPriceText(String.format("%.2f EUR", price)); // Set the formatted price with EUR
         } else {
             throw new IllegalArgumentException("Parking spot or type is null");
         }
