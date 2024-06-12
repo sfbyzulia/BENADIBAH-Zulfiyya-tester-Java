@@ -22,17 +22,23 @@ public class ParkingService {
     private ParkingSpotDAO parkingSpotDAO;
     private TicketDAO ticketDAO;
 
-    public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO) {
+    public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
 
     public void processIncomingVehicle() {
-        try {
+        try{
+            String vehicleRegNumber = getVehicleRegNumber();
+            // Check if vehicle is currently parked
+            if (ticketDAO.isVehicleCurrentlyParked(vehicleRegNumber)) {
+                System.out.println("Vehicle is already parked.");
+                return;
+            }
+
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
-            if (parkingSpot != null && parkingSpot.getId() > 0) {
-                String vehicleRegNumber = getVehicleRegNumber();
+            if(parkingSpot != null && parkingSpot.getId() > 0){
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);
 
@@ -43,19 +49,13 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
-
-                // Check if the user is a recurring user
-                int ticketCount = ticketDAO.getTicketCount(vehicleRegNumber);
-                boolean isRecurring = ticketCount > 0;
-                if (isRecurring) {
-                    System.out.println("Heureux de vous revoir ! En tant qu’utilisateur régulier de notre parking, vous allez obtenir une remise de 5%");
-                }
                 ticketDAO.saveTicket(ticket);
+
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
             }
-        } catch (Exception e) {
+        }catch(Exception e){
             logger.error("Unable to process incoming vehicle", e);
         }
     }

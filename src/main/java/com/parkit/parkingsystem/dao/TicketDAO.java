@@ -20,6 +20,22 @@ public class TicketDAO {
     private static final Logger logger = LogManager.getLogger("TicketDAO");
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    // Checks if a vehicle is currently parked
+    public boolean isVehicleCurrentlyParked(String vehicleRegNumber) {
+        try (Connection con = dataBaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT EXISTS (SELECT 1 FROM ticket WHERE vehicle_reg_number = ? AND out_time IS NULL)")) {
+            ps.setString(1, vehicleRegNumber);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean(1);
+                }
+            }
+        } catch (SQLException ex) {
+            logger.error("Error checking if vehicle is currently parked", ex);
+        }
+        return false;
+    }
+
     public boolean saveTicket(Ticket ticket) {
         try (Connection con = dataBaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET)) {
