@@ -44,6 +44,7 @@ public class TicketDAO {
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : new Timestamp(ticket.getOutTime().getTime()));
+            ps.setString(6, ticket.getParkingSpot().getParkingType().toString()); // Add parking type to save
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             logger.error("Error saving ticket", ex);
@@ -53,25 +54,32 @@ public class TicketDAO {
 
     public Optional<Ticket> getTicket(String vehicleRegNumber) {
         try (Connection con = dataBaseConfig.getConnection();
-             PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET)) {
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE vehicle_reg_number = ? AND out_time IS NULL")) {
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
+                String parkingTypeStr = rs.getString("parking_type");
+                if (parkingTypeStr == null) {
+                    throw new IllegalStateException("Parking type is missing for vehicle registration number: " + vehicleRegNumber);
+                }
+                ParkingType parkingType = ParkingType.valueOf(parkingTypeStr);
+                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt("parking_number"), parkingType, false);
                 Ticket ticket = new Ticket();
-                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)), false);
                 ticket.setParkingSpot(parkingSpot);
-                ticket.setId(rs.getInt(2));
+                ticket.setId(rs.getInt("id"));
                 ticket.setVehicleRegNumber(vehicleRegNumber);
-                ticket.setPrice(rs.getDouble(3));
-                ticket.setInTime(rs.getTimestamp(4));
-                ticket.setOutTime(rs.getTimestamp(5));
+                ticket.setPrice(rs.getDouble("price"));
+                ticket.setInTime(rs.getTimestamp("in_time"));
+                ticket.setOutTime(rs.getTimestamp("out_time"));  // Will be null since we filter for active tickets
+                ticket.setParkingType(rs.getString("parking_type"));; // Set parking type
                 return Optional.of(ticket);
             }
         } catch (SQLException ex) {
-            logger.error("Error fetching ticket", ex);
+            logger.error("Error fetching active ticket", ex);
         }
         return Optional.empty();
     }
+    
 
     public boolean updateTicket(Ticket ticket) {
         try (Connection con = dataBaseConfig.getConnection();
@@ -79,7 +87,9 @@ public class TicketDAO {
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
-            return ps.executeUpdate() > 0;
+            int result = ps.executeUpdate();
+            logger.info("Ticket updated in DB with price: " + ticket.getPrice()); // Log the price to verify
+            return result > 0;
         } catch (SQLException ex) {
             logger.error("Error updating ticket", ex);
             return false;

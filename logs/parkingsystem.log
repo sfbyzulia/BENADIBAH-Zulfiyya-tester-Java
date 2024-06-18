@@ -1,0 +1,93 @@
+2024-06-18 13:15:53 INFO  App - Initializing Parking System
+2024-06-18 13:15:53 INFO  InteractiveShell - App initialized!!!
+2024-06-18 13:18:00 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 13:18:00 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 13:18:00 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 13:18:00 ERROR ParkingService - Error fetching next available parking slot
+java.lang.Exception: Error fetching parking number from DB. Parking slots might be full
+	at com.parkit.parkingsystem.service.ParkingService.getNextParkingNumberIfAvailable(ParkingService.java:110) [classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:40) [classes/:?]
+	at com.parkit.parkingsystem.service.InteractiveShell.loadInterface(InteractiveShell.java:28) [classes/:?]
+	at com.parkit.parkingsystem.App.main(App.java:11) [classes/:?]
+2024-06-18 14:03:08 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 14:03:08 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:03:08 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:03:08 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:03:08 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:11:30 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 14:11:30 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:11:30 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:11:31 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:11:31 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:11:47 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:11:47 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:14:47 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 14:14:47 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:14:47 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:14:47 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:14:47 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 14:46:34 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 14:46:34 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:29:55 ERROR ParkingService - Error parsing user input for type of vehicle
+java.lang.IllegalArgumentException: Entered input is invalid
+	at com.parkit.parkingsystem.service.ParkingService.getVehicleType(ParkingService.java:132) ~[classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.getNextParkingNumberIfAvailable(ParkingService.java:107) [classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:40) [classes/:?]
+	at com.parkit.parkingsystem.service.InteractiveShell.loadInterface(InteractiveShell.java:28) [classes/:?]
+	at com.parkit.parkingsystem.App.main(App.java:11) [classes/:?]
+2024-06-18 16:30:07 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 16:30:07 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:30:07 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:30:07 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:30:07 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:38:36 INFO  App - Initializing Parking System
+2024-06-18 16:38:36 INFO  InteractiveShell - App initialized!!!
+2024-06-18 16:39:00 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:39:00 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:50:36 INFO  App - Initializing Parking System
+2024-06-18 16:50:36 INFO  InteractiveShell - App initialized!!!
+2024-06-18 16:50:56 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 16:50:56 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:50:56 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:50:56 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:50:56 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:55:04 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 16:55:04 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:55:04 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:55:04 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:55:04 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:56:03 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 16:56:03 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:56:03 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:56:03 ERROR ParkingService - Error fetching next available parking slot
+java.lang.Exception: Error fetching parking number from DB. Parking slots might be full
+	at com.parkit.parkingsystem.service.ParkingService.getNextParkingNumberIfAvailable(ParkingService.java:111) [classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:40) [classes/:?]
+	at com.parkit.parkingsystem.service.InteractiveShell.loadInterface(InteractiveShell.java:28) [classes/:?]
+	at com.parkit.parkingsystem.App.main(App.java:11) [classes/:?]
+2024-06-18 16:56:28 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 16:56:28 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:56:28 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:56:28 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:56:28 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:56:32 ERROR InputReaderUtil - Error while reading user input from Shell
+java.lang.NumberFormatException: For input string: "A"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:67) ~[?:?]
+	at java.lang.Integer.parseInt(Integer.java:668) ~[?:?]
+	at java.lang.Integer.parseInt(Integer.java:786) ~[?:?]
+	at com.parkit.parkingsystem.util.InputReaderUtil.readSelection(InputReaderUtil.java:15) [classes/:?]
+	at com.parkit.parkingsystem.service.InteractiveShell.loadInterface(InteractiveShell.java:25) [classes/:?]
+	at com.parkit.parkingsystem.App.main(App.java:11) [classes/:?]
+2024-06-18 16:56:42 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 16:56:42 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:56:42 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 16:56:42 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 16:56:42 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 17:05:43 INFO  TicketDAO - Ticket updated in DB with price: 0.14
+2024-06-18 17:05:43 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 17:05:43 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 17:06:26 INFO  DataBaseConfig - Closing Result Set
+2024-06-18 17:06:26 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 17:06:26 INFO  DataBaseConfig - Closing DB connection
+2024-06-18 17:06:26 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-18 17:06:26 INFO  DataBaseConfig - Closing DB connection

@@ -10,6 +10,7 @@ public class Ticket {
     private String priceText;  // New field to store the price as text with EUR symbol
     private Date inTime;
     private Date outTime;
+    private String parkingType; // New field for parking type
 
     public int getId() {
         return id;
@@ -65,5 +66,13 @@ public class Ticket {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+
+    public String getParkingType(){
+        return parkingType;
+    }
+
+    public void setParkingType(String parkingType) {
+        this.parkingType = parkingType;
     }
 }

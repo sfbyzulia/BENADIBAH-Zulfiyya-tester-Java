@@ -1,5 +1,8 @@
 package com.parkit.parkingsystem.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
@@ -38,8 +41,10 @@ public class FareCalculatorService {
                 price *= 0.95; // Apply 5% discount
             }
 
-            price = Math.round(price * 100) / 100.0; // Round the price to 2 decimal places
-            ticket.setPriceText(String.format("%.2f EUR", price)); // Set the formatted price with EUR
+            // Use BigDecimal for rounding to 2 decimal places
+             BigDecimal roundedPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP); 
+             ticket.setPrice(roundedPrice.doubleValue()); // Set the price for the ticket
+            ticket.setPriceText(String.format("%.2f EUR", roundedPrice.doubleValue())); // Set the formatted price with EUR
         } else {
             throw new IllegalArgumentException("Parking spot or type is null");
         }

@@ -71,11 +71,20 @@ public class ParkingService {
                 int ticketCount = ticketDAO.getTicketCount(vehicleRegNumber);
                 boolean discount = (ticketCount > 1);
                 fareCalculatorService.calculateFare(ticket, discount);
+                System.out.println("Calculated price: " + ticket.getPrice()); // Log to verify price
                 if (ticketDAO.updateTicket(ticket)) {
                     ParkingSpot parkingSpot = ticket.getParkingSpot();
                     parkingSpot.setAvailable(true);
                     parkingSpotDAO.updateParking(parkingSpot);
+
+                     // Calculate and format the parking duration
+                long durationMillis = outTime.getTime() - ticket.getInTime().getTime();
+                long minutes = (durationMillis / 1000) / 60;
+                long hours = minutes / 60;
+                minutes = minutes % 60;
+
                     System.out.println("Please pay the parking fare:" + ticket.getPriceText());
+                    System.out.println("You have stayed " + hours + " hours and " + minutes + " minutes in our parking.");
                     System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
                 } else {
                     System.out.println("Unable to update ticket information. Error occurred");
