@@ -15,36 +15,40 @@ public class FareCalculatorService {
 
         long inTimeMillis = ticket.getInTime().getTime();
         long outTimeMillis = ticket.getOutTime().getTime();
-        double duration = (outTimeMillis - inTimeMillis) / 3600000.0;
+        long durationInMinutes = (outTimeMillis - inTimeMillis) / 60000; // Convert milliseconds to minutes
 
-        if (duration <= 0.5) {
+        if (durationInMinutes <= 30) {
             ticket.setPrice(0); // First 30 minutes are free
             return;
         }
 
         // Calculate price considering free 30 minutes
-        double chargeableDuration = Math.max(0, duration - 0.5);
-        double price = 0;
+        long chargeableMinutes = durationInMinutes - 30;
+        BigDecimal price = BigDecimal.ZERO;
         if (ticket.getParkingSpot() != null && ticket.getParkingSpot().getParkingType() != null) {
             switch (ticket.getParkingSpot().getParkingType()) {
                 case CAR:
-                    price = chargeableDuration * Fare.CAR_RATE_PER_HOUR;
+                    price = BigDecimal.valueOf(chargeableMinutes)
+                            .multiply(BigDecimal.valueOf(Fare.CAR_RATE_PER_HOUR))
+                            .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
                     break;
                 case BIKE:
-                    price = chargeableDuration * Fare.BIKE_RATE_PER_HOUR;
+                    price = BigDecimal.valueOf(chargeableMinutes)
+                            .multiply(BigDecimal.valueOf(Fare.BIKE_RATE_PER_HOUR))
+                            .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown Parking Type");
             }
 
             if (discount) {
-                price *= 0.95; // Apply 5% discount
+                price = price.multiply(BigDecimal.valueOf(0.95)); // Apply 5% discount
             }
 
             // Use BigDecimal for rounding to 2 decimal places
-             BigDecimal roundedPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP); 
-             ticket.setPrice(roundedPrice.doubleValue()); // Set the price for the ticket
-            ticket.setPriceText(String.format("%.2f EUR", roundedPrice.doubleValue())); // Set the formatted price with EUR
+            price = price.setScale(2, RoundingMode.HALF_UP);
+            ticket.setPrice(price.doubleValue());
+            ticket.setPriceText(String.format("%.2f EUR", price.doubleValue())); // Set the formatted price with EUR
         } else {
             throw new IllegalArgumentException("Parking spot or type is null");
         }

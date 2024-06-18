@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem;
 
-import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
@@ -28,7 +27,6 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCar() {
-        // More than an hour to ensure at least one hour charge
         Date inTime = new Date(System.currentTimeMillis() - 61 * 60 * 1000);
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -38,12 +36,11 @@ public class FareCalculatorServiceTest {
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((Fare.CAR_RATE_PER_HOUR / 2), ticket.getPrice(), 0.01);
+        assertEquals(0.75, ticket.getPrice(), 0.05); // 0.75 +/- 0.05
     }
 
     @Test
     public void calculateFareCarWithMoreThanADayParkingTime() {
-        // More than 24 hours
         Date inTime = new Date();
         inTime.setTime(System.currentTimeMillis() - (24 * 60 + 1) * 60 * 1000);
         Date outTime = new Date();
@@ -53,6 +50,36 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((24 * Fare.CAR_RATE_PER_HOUR - (Fare.CAR_RATE_PER_HOUR / 2)), ticket.getPrice(), 0.01);
+
+        assertEquals(35.25, ticket.getPrice(), 0.05); // 35.25 +/- 0.05
+    }
+
+    @Test
+    public void calculateFareCarWithDiscount() {
+        Date inTime = new Date(System.currentTimeMillis() - 61 * 60 * 1000);
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, true);
+
+        assertEquals(0.71, ticket.getPrice(), 0.05); // 0.71 +/- 0.05
+    }
+
+    @Test
+    public void calculateFareCarWithMoreThanADayParkingTimeWithDiscount() {
+        Date inTime = new Date();
+        inTime.setTime(System.currentTimeMillis() - (24 * 60 + 1) * 60 * 1000);
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, true);
+
+        assertEquals(33.49, ticket.getPrice(), 0.05); // 33.49 +/- 0.05
     }
 }

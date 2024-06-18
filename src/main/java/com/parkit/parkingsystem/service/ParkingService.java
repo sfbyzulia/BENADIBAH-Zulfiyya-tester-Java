@@ -71,7 +71,6 @@ public class ParkingService {
                 int ticketCount = ticketDAO.getTicketCount(vehicleRegNumber);
                 boolean discount = (ticketCount > 1);
                 fareCalculatorService.calculateFare(ticket, discount);
-                System.out.println("Calculated price: " + ticket.getPrice()); // Log to verify price
                 if (ticketDAO.updateTicket(ticket)) {
                     ParkingSpot parkingSpot = ticket.getParkingSpot();
                     parkingSpot.setAvailable(true);
