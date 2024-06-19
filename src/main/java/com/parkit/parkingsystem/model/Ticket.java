@@ -2,6 +2,8 @@ package com.parkit.parkingsystem.model;
 
 import java.util.Date;
 
+import com.parkit.parkingsystem.constants.ParkingType;
+
 public class Ticket {
     private int id;
     private ParkingSpot parkingSpot;
@@ -10,7 +12,7 @@ public class Ticket {
     private String priceText;  // New field to store the price as text with EUR symbol
     private Date inTime;
     private Date outTime;
-    private String parkingType; // New field for parking type
+    private ParkingType parkingType; // New field for parking type
 
     public int getId() {
         return id;
@@ -68,11 +70,11 @@ public class Ticket {
         this.outTime = outTime;
     }
 
-    public String getParkingType(){
+    public ParkingType getParkingType() {
         return parkingType;
     }
 
-    public void setParkingType(String parkingType) {
+    public void setParkingType(ParkingType parkingType) {
         this.parkingType = parkingType;
     }
-}
+ }

@@ -1,6 +1,6 @@
 /* Setting up PROD DB */
 create database prod;
-use prod;
+USE prod;
 
 create table parking(
 PARKING_NUMBER int PRIMARY KEY,
@@ -12,7 +12,7 @@ create table ticket(
  ID int PRIMARY KEY AUTO_INCREMENT,
  PARKING_NUMBER int NOT NULL,
  VEHICLE_REG_NUMBER varchar(10) NOT NULL,
- PRICE double,
+ PRICE DOUBLE,
  IN_TIME DATETIME NOT NULL,
  OUT_TIME DATETIME,
  PARKING_TYPE varchar(10) NOT NULL,
@@ -28,7 +28,7 @@ commit;
 
 /* Setting up TEST DB */
 create database test;
-use test;
+USE test;
 
 create table parking(
 PARKING_NUMBER int PRIMARY KEY,

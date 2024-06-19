@@ -49,7 +49,7 @@ import com.parkit.parkingsystem.model.Ticket;
 <span class="fc" id="L49">            price = price.setScale(2, RoundingMode.HALF_UP);</span>
 <span class="fc" id="L50">            ticket.setPrice(price.doubleValue());</span>
 <span class="fc" id="L51">            ticket.setPriceText(String.format(&quot;%.2f EUR&quot;, price.doubleValue())); // Set the formatted price with EUR</span>
-<span class="fc" id="L52">        } else {</span>
+        } else {
 <span class="nc" id="L53">            throw new IllegalArgumentException(&quot;Parking spot or type is null&quot;);</span>
         }
 <span class="fc" id="L55">    }</span>

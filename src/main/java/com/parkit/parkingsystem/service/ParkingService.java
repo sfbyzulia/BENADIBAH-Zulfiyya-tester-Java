@@ -40,7 +40,9 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot != null && parkingSpot.getId() > 0){
                 parkingSpot.setAvailable(false);
-                parkingSpotDAO.updateParking(parkingSpot);
+                boolean updated = parkingSpotDAO.updateParking(parkingSpot);
+                logger.info("Parking spot {} set to unavailable: {}", parkingSpot.getId(), updated);
+    
 
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
@@ -49,6 +51,8 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
+                ticket.setParkingType(parkingSpot.getParkingType()); // Set the parking type
+                
                 ticketDAO.saveTicket(ticket);
 
                 System.out.println("Generated Ticket and saved in DB");

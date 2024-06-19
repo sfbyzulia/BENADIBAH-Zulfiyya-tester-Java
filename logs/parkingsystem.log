@@ -269,3 +269,291 @@ java.sql.SQLSyntaxErrorException: Unknown column 'PARKING_TYPE' in 'field list'
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:125) [surefire-booter-2.21.0.jar:2.21.0]
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:413) [surefire-booter-2.21.0.jar:2.21.0]
 2024-06-18 21:50:41 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:01:16 INFO  App - Initializing Parking System
+2024-06-18 22:01:16 INFO  InteractiveShell - App initialized!!!
+2024-06-18 22:08:30 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 ERROR TicketDAO - Error saving ticket
+java.sql.SQLSyntaxErrorException: Unknown column 'PARKING_TYPE' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.parkit.parkingsystem.dao.TicketDAO.saveTicket(TicketDAO.java:48) ~[classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:52) ~[classes/:?]
+	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingACar(ParkingDataBaseIT.java:55) ~[test-classes/:?]
+	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingLotExit(ParkingDataBaseIT.java:65) ~[test-classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:532) ~[junit-platform-commons-1.3.2.jar:1.3.2]
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$4(NodeTestTask.java:108) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:98) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:74) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at java.util.ArrayList.forEach(ArrayList.java:1511) ~[?:?]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$4(NodeTestTask.java:112) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:98) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:74) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at java.util.ArrayList.forEach(ArrayList.java:1511) ~[?:?]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$4(NodeTestTask.java:112) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:98) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:74) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:170) [junit-platform-launcher-1.2.0.jar:1.2.0]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:154) [junit-platform-launcher-1.2.0.jar:1.2.0]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:90) [junit-platform-launcher-1.2.0.jar:1.2.0]
+	at org.junit.platform.surefire.provider.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:132) [junit-platform-surefire-provider-1.2.0.jar:1.2.0]
+	at org.junit.platform.surefire.provider.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:111) [junit-platform-surefire-provider-1.2.0.jar:1.2.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:379) [surefire-booter-2.21.0.jar:2.21.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:340) [surefire-booter-2.21.0.jar:2.21.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:125) [surefire-booter-2.21.0.jar:2.21.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:413) [surefire-booter-2.21.0.jar:2.21.0]
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-18 22:08:32 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Create DB connection
+2024-06-18 22:08:33 ERROR TicketDAO - Error saving ticket
+java.sql.SQLSyntaxErrorException: Unknown column 'PARKING_TYPE' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.parkit.parkingsystem.dao.TicketDAO.saveTicket(TicketDAO.java:48) ~[classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:52) ~[classes/:?]
+	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingACar(ParkingDataBaseIT.java:55) ~[test-classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:568) ~[?:?]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:532) ~[junit-platform-commons-1.3.2.jar:1.3.2]
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59) ~[junit-jupiter-engine-5.3.2.jar:5.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$4(NodeTestTask.java:108) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:98) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:74) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at java.util.ArrayList.forEach(ArrayList.java:1511) ~[?:?]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$4(NodeTestTask.java:112) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:98) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:74) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at java.util.ArrayList.forEach(ArrayList.java:1511) ~[?:?]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$4(NodeTestTask.java:112) ~[junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:98) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:74) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51) [junit-platform-engine-1.3.2.jar:1.3.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:170) [junit-platform-launcher-1.2.0.jar:1.2.0]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:154) [junit-platform-launcher-1.2.0.jar:1.2.0]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:90) [junit-platform-launcher-1.2.0.jar:1.2.0]
+	at org.junit.platform.surefire.provider.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:132) [junit-platform-surefire-provider-1.2.0.jar:1.2.0]
+	at org.junit.platform.surefire.provider.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:111) [junit-platform-surefire-provider-1.2.0.jar:1.2.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:379) [surefire-booter-2.21.0.jar:2.21.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:340) [surefire-booter-2.21.0.jar:2.21.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:125) [surefire-booter-2.21.0.jar:2.21.0]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:413) [surefire-booter-2.21.0.jar:2.21.0]
+2024-06-18 22:08:33 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:55:37 INFO  App - Initializing Parking System
+2024-06-19 10:55:37 INFO  InteractiveShell - App initialized!!!
+2024-06-19 10:57:22 INFO  DataBaseConfig - Closing Result Set
+2024-06-19 10:57:22 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-19 10:57:22 INFO  DataBaseConfig - Closing DB connection
+2024-06-19 10:57:22 ERROR ParkingService - Error fetching next available parking slot
+java.lang.Exception: Error fetching parking number from DB. Parking slots might be full
+	at com.parkit.parkingsystem.service.ParkingService.getNextParkingNumberIfAvailable(ParkingService.java:110) [classes/:?]
+	at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:40) [classes/:?]
+	at com.parkit.parkingsystem.service.InteractiveShell.loadInterface(InteractiveShell.java:28) [classes/:?]
+	at com.parkit.parkingsystem.App.main(App.java:11) [classes/:?]
+2024-06-19 10:59:20 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:21 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 10:59:22 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:42:02 INFO  App - Initializing Parking System
+2024-06-19 11:42:02 INFO  InteractiveShell - App initialized!!!
+2024-06-19 11:42:56 INFO  TicketDAO - Ticket updated in DB with price: 18.27
+2024-06-19 11:42:56 INFO  DataBaseConfig - Closing Prepared Statement
+2024-06-19 11:42:56 INFO  ParkingSpotDAO - Updated parking spot 5 to available: true
+2024-06-19 11:42:56 INFO  DataBaseConfig - Closing DB connection
+2024-06-19 11:44:02 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:03 INFO  ParkingSpotDAO - Updated parking spot 1 to available: false
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:03 INFO  ParkingService - Parking spot 1 set to unavailable: true
+2024-06-19 11:44:03 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  TicketDAO - Ticket updated in DB with price: 0.0
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  ParkingSpotDAO - Updated parking spot 1 to available: true
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  ParkingSpotDAO - Updated parking spot 1 to available: false
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 11:44:04 INFO  ParkingService - Parking spot 1 set to unavailable: true
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 11:44:04 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:02:18 INFO  App - Initializing Parking System
+2024-06-19 12:02:18 INFO  InteractiveShell - App initialized!!!
+2024-06-19 12:04:07 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  ParkingSpotDAO - Updated parking spot 1 to available: false
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:09 INFO  ParkingService - Parking spot 1 set to unavailable: true
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  TicketDAO - Ticket updated in DB with price: 0.0
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  ParkingSpotDAO - Updated parking spot 1 to available: true
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:09 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:10 INFO  ParkingSpotDAO - Updated parking spot 1 to available: false
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing DB connection
+2024-06-19 12:04:10 INFO  ParkingService - Parking spot 1 set to unavailable: true
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Create DB connection
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing Result Set
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing Prepared Statement
+2024-06-19 12:04:10 INFO  DataBaseTestConfig - Closing DB connection

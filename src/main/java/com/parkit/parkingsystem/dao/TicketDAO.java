@@ -71,7 +71,7 @@ public class TicketDAO {
                 ticket.setPrice(rs.getDouble("price"));
                 ticket.setInTime(rs.getTimestamp("in_time"));
                 ticket.setOutTime(rs.getTimestamp("out_time"));  // Will be null since we filter for active tickets
-                ticket.setParkingType(rs.getString("parking_type"));; // Set parking type
+                ticket.setParkingType(ParkingType.valueOf(rs.getString("PARKING_TYPE")));; // Set parking type
                 return Optional.of(ticket);
             }
         } catch (SQLException ex) {
@@ -90,6 +90,7 @@ public class TicketDAO {
             int result = ps.executeUpdate();
             logger.info("Ticket updated in DB with price: " + ticket.getPrice()); // Log the price to verify
             return result > 0;
+
         } catch (SQLException ex) {
             logger.error("Error updating ticket", ex);
             return false;

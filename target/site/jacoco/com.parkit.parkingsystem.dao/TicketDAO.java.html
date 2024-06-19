@@ -71,7 +71,7 @@ import java.util.Optional;
 <span class="nc" id="L71">                ticket.setPrice(rs.getDouble(&quot;price&quot;));</span>
 <span class="nc" id="L72">                ticket.setInTime(rs.getTimestamp(&quot;in_time&quot;));</span>
 <span class="nc" id="L73">                ticket.setOutTime(rs.getTimestamp(&quot;out_time&quot;));  // Will be null since we filter for active tickets</span>
-<span class="nc" id="L74">                ticket.setParkingType(rs.getString(&quot;parking_type&quot;));; // Set parking type</span>
+<span class="nc" id="L74">                ticket.setParkingType(ParkingType.valueOf(rs.getString(&quot;PARKING_TYPE&quot;)));; // Set parking type</span>
 <span class="nc" id="L75">                return Optional.of(ticket);</span>
             }
 <span class="nc bnc" id="L77" title="All 4 branches missed.">        } catch (SQLException ex) {</span>
@@ -90,25 +90,26 @@ import java.util.Optional;
 <span class="nc" id="L90">            int result = ps.executeUpdate();</span>
 <span class="nc" id="L91">            logger.info(&quot;Ticket updated in DB with price: &quot; + ticket.getPrice()); // Log the price to verify</span>
 <span class="nc bnc" id="L92" title="All 2 branches missed.">            return result &gt; 0;</span>
-<span class="nc" id="L93">        } catch (SQLException ex) {</span>
-<span class="nc" id="L94">            logger.error(&quot;Error updating ticket&quot;, ex);</span>
-<span class="nc" id="L95">            return false;</span>
+
+<span class="nc" id="L94">        } catch (SQLException ex) {</span>
+<span class="nc" id="L95">            logger.error(&quot;Error updating ticket&quot;, ex);</span>
+<span class="nc" id="L96">            return false;</span>
         }
     }
 
     public int getTicketCount(String vehicleRegNumber) {
-<span class="nc" id="L100">        String sql = &quot;SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER = ?&quot;;</span>
-<span class="nc" id="L101">        try (Connection con = dataBaseConfig.getConnection();</span>
-<span class="nc" id="L102">             PreparedStatement ps = con.prepareStatement(sql)) {</span>
-<span class="nc" id="L103">            ps.setString(1, vehicleRegNumber);</span>
-<span class="nc" id="L104">            ResultSet rs = ps.executeQuery();</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">            if (rs.next()) {</span>
-<span class="nc" id="L106">                return rs.getInt(1);</span>
+<span class="nc" id="L101">        String sql = &quot;SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER = ?&quot;;</span>
+<span class="nc" id="L102">        try (Connection con = dataBaseConfig.getConnection();</span>
+<span class="nc" id="L103">             PreparedStatement ps = con.prepareStatement(sql)) {</span>
+<span class="nc" id="L104">            ps.setString(1, vehicleRegNumber);</span>
+<span class="nc" id="L105">            ResultSet rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L107">                return rs.getInt(1);</span>
             }
-<span class="nc bnc" id="L108" title="All 4 branches missed.">        } catch (SQLException ex) {</span>
-<span class="nc" id="L109">            logger.error(&quot;Error fetching ticket count&quot;, ex);</span>
-<span class="nc" id="L110">        }</span>
-<span class="nc" id="L111">        return 0;</span>
+<span class="nc bnc" id="L109" title="All 4 branches missed.">        } catch (SQLException ex) {</span>
+<span class="nc" id="L110">            logger.error(&quot;Error fetching ticket count&quot;, ex);</span>
+<span class="nc" id="L111">        }</span>
+<span class="nc" id="L112">        return 0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

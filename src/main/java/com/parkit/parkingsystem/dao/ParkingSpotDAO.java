@@ -48,6 +48,7 @@ public class ParkingSpotDAO {
             ps.setInt(2, parkingSpot.getId());
             int updateRowCount = ps.executeUpdate();
             dataBaseConfig.closePreparedStatement(ps);
+            logger.info("Updated parking spot {} to available: {}", parkingSpot.getId(), parkingSpot.isAvailable());
             return (updateRowCount == 1);
         }catch (Exception ex){
             logger.error("Error updating parking info",ex);
@@ -56,4 +57,24 @@ public class ParkingSpotDAO {
             dataBaseConfig.closeConnection(con);
         }
     }
+public ParkingSpot getParkingSpot(int id) {
+    Connection con = null;
+    ParkingSpot parkingSpot = null;
+    try {
+        con = dataBaseConfig.getConnection();
+        PreparedStatement ps = con.prepareStatement("select * from parking where PARKING_NUMBER = ?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            parkingSpot = new ParkingSpot(id, ParkingType.valueOf(rs.getString("TYPE")), rs.getBoolean("AVAILABLE"));
+        }
+        dataBaseConfig.closeResultSet(rs);
+        dataBaseConfig.closePreparedStatement(ps);
+    } catch (Exception ex) {
+        logger.error("Error fetching parking spot", ex);
+    } finally {
+        dataBaseConfig.closeConnection(con);
+    }
+    return parkingSpot;
+}
 }
