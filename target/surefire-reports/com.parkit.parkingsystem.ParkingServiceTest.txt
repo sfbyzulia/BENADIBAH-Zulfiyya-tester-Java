@@ -1,37 +1,36 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.ParkingServiceTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 0.27 s <<< FAILURE! - in com.parkit.parkingsystem.ParkingServiceTest
-testGetNextParkingNumberIfAvailableParkingNumberNotFound  Time elapsed: 0.173 s  <<< ERROR!
+Tests run: 7, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 0.159 s <<< FAILURE! - in com.parkit.parkingsystem.ParkingServiceTest
+testGetNextParkingNumberIfAvailableParkingNumberNotFound  Time elapsed: 0.1 s  <<< ERROR!
 org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
 
 Unnecessary stubbings detected.
 Clean & maintainable test code requires zero unnecessary code.
 Following stubbings are unnecessary (click to navigate to relevant line of code):
   1. -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:39)
-  2. -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:48)
-  3. -> at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailableParkingNumberNotFound(ParkingServiceTest.java:102)
+  2. -> at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailableParkingNumberNotFound(ParkingServiceTest.java:104)
 Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
 
-testGetNextParkingNumberIfAvailableParkingNumberWrongArgument  Time elapsed: 0.005 s  <<< FAILURE!
+testGetNextParkingNumberIfAvailableParkingNumberWrongArgument  Time elapsed: 0.008 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
-	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(ParkingServiceTest.java:113)
+	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(ParkingServiceTest.java:115)
 
-testGetNextParkingNumberIfAvailable  Time elapsed: 0.01 s  <<< FAILURE!
+testGetNextParkingNumberIfAvailable  Time elapsed: 0.006 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: not <null>
-	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailable(ParkingServiceTest.java:95)
+	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailable(ParkingServiceTest.java:97)
 
-testProcessIncomingVehicle  Time elapsed: 0.03 s  <<< FAILURE!
+testProcessIncomingVehicle  Time elapsed: 0.012 s  <<< FAILURE!
 org.mockito.exceptions.verification.WantedButNotInvoked: 
 
 Wanted but not invoked:
 ticketDAO.saveTicket(<Capturing argument>);
--> at com.parkit.parkingsystem.ParkingServiceTest.testProcessIncomingVehicle(ParkingServiceTest.java:62)
+-> at com.parkit.parkingsystem.ParkingServiceTest.testProcessIncomingVehicle(ParkingServiceTest.java:64)
 
 However, there was exactly 1 interaction with this mock:
 ticketDAO.isVehicleCurrentlyParked("ABCDEF");
 -> at com.parkit.parkingsystem.service.ParkingService.processIncomingVehicle(ParkingService.java:35)
 
 
-	at com.parkit.parkingsystem.ParkingServiceTest.testProcessIncomingVehicle(ParkingServiceTest.java:62)
+	at com.parkit.parkingsystem.ParkingServiceTest.testProcessIncomingVehicle(ParkingServiceTest.java:64)
 
