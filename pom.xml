@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -10,10 +9,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -49,12 +49,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.12</version>
-            <type>maven-plugin</type>
-        </dependency>
-        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.0.0</version>
@@ -66,7 +60,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version> 
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -80,45 +74,22 @@
                                 </manifest>
                             </archive>
                             <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef> 
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.21.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.2.0</version>
-                    </dependency>
-                </dependencies>
+                <version>2.22.2</version>
                 <configuration>
-                    <excludes>
-                        <exclude>**/*IT.java</exclude>
-                    </excludes>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*IT.java</include>
+                    </includes>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <excludes>
-                                <exclude>none</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/*IT.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -131,8 +102,8 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-report</id>
-                        <phase>test</phase>
+                        <id>report</id>
+                        <phase>verify</phase>  
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -140,6 +111,5 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
-
+    </build>            
 </project>

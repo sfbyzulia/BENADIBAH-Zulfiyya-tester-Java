@@ -43,7 +43,6 @@ public class ParkingService {
                 boolean updated = parkingSpotDAO.updateParking(parkingSpot);
                 logger.info("Parking spot {} set to unavailable: {}", parkingSpot.getId(), updated);
     
-
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
                 ticket.setParkingSpot(parkingSpot);
@@ -75,20 +74,21 @@ public class ParkingService {
                 int ticketCount = ticketDAO.getTicketCount(vehicleRegNumber);
                 boolean discount = (ticketCount > 1);
                 fareCalculatorService.calculateFare(ticket, discount);
+    
                 if (ticketDAO.updateTicket(ticket)) {
                     ParkingSpot parkingSpot = ticket.getParkingSpot();
                     parkingSpot.setAvailable(true);
                     parkingSpotDAO.updateParking(parkingSpot);
-
-                     // Calculate and format the parking duration
-                long durationMillis = outTime.getTime() - ticket.getInTime().getTime();
-                long minutes = (durationMillis / 1000) / 60;
-                long hours = minutes / 60;
-                minutes = minutes % 60;
-
-                    System.out.println("Please pay the parking fare:" + ticket.getPriceText());
+    
+                    // Calculate and format the parking duration
+                    long durationMillis = outTime.getTime() - ticket.getInTime().getTime();
+                    long minutes = (durationMillis / 1000) / 60;
+                    long hours = minutes / 60;
+                    minutes = minutes % 60;
+    
+                    System.out.println("Please pay the parking fare: " + ticket.getPriceText());
                     System.out.println("You have stayed " + hours + " hours and " + minutes + " minutes in our parking.");
-                    System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
+                    System.out.println("Recorded out-time for vehicle number: " + ticket.getVehicleRegNumber() + " is: " + outTime);
                 } else {
                     System.out.println("Unable to update ticket information. Error occurred");
                 }
@@ -100,12 +100,12 @@ public class ParkingService {
         }
     }
 
-    private String getVehicleRegNumber() throws Exception {
+    public String getVehicleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
-    private ParkingSpot getNextParkingNumberIfAvailable() {
+    public ParkingSpot getNextParkingNumberIfAvailable() {
         ParkingSpot parkingSpot = null;
         try {
             ParkingType parkingType = getVehicleType();
@@ -121,7 +121,7 @@ public class ParkingService {
         return parkingSpot;
     }
 
-    private ParkingType getVehicleType() {
+    public ParkingType getVehicleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
         System.out.println("2 BIKE");

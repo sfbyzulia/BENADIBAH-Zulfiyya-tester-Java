@@ -4,7 +4,11 @@ import com.parkit.parkingsystem.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DataBaseTestConfig extends DataBaseConfig {
 
@@ -14,12 +18,9 @@ public class DataBaseTestConfig extends DataBaseConfig {
     public Connection getConnection() {
         logger.info("Create DB connection");
         try {
-            // Attempt to establish a connection to the test database
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "R00tP@ssw0rd!");
         } catch (SQLException e) {
-            // Log an error if the connection could not be established
             logger.error("Database connection error", e);
-            // Return null indicating that the connection was not successful
             return null;
         }
     }

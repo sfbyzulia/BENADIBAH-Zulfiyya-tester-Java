@@ -10,24 +10,22 @@ public class DataBasePrepareService {
 
     DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 
-    public void clearDataBaseEntries(){
+    public void clearDataBaseEntries() {
         Connection connection = null;
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
-        try{
+        try {
             connection = dataBaseTestConfig.getConnection();
 
-            //set parking entries to available
+            // Set parking entries to available
             ps1 = connection.prepareStatement("update parking set available = true");
             ps1.execute();
-            ps1.close();
 
-            //clear ticket entries;
- ps2 = connection.prepareStatement("truncate table ticket");
+            // Clear ticket entries
+            ps2 = connection.prepareStatement("truncate table ticket");
             ps2.execute();
-            ps2.close();
 
-       } catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             dataBaseTestConfig.closePreparedStatement(ps1);
@@ -35,6 +33,4 @@ public class DataBasePrepareService {
             dataBaseTestConfig.closeConnection(connection);
         }
     }
-
-
 }
