@@ -2,7 +2,6 @@ package com.parkit.parkingsystem.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
@@ -61,9 +60,5 @@ public class FareCalculatorService {
             logger.error("Parking spot or type is null");
             throw new IllegalArgumentException("Parking spot or type is null");
         }
-    }
-
-    public void calculateFare(Ticket ticket) {
-        calculateFare(ticket, false);
     }
 }

@@ -54,7 +54,7 @@ public class TicketDAO {
 
     public Optional<Ticket> getTicket(String vehicleRegNumber) {
         try (Connection con = dataBaseConfig.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE vehicle_reg_number = ? AND out_time IS NULL")) {
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE vehicle_reg_number = ? ORDER BY in_time DESC LIMIT 1")) {
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -70,15 +70,15 @@ public class TicketDAO {
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(rs.getDouble("price"));
                 ticket.setInTime(rs.getTimestamp("in_time"));
-                ticket.setOutTime(rs.getTimestamp("out_time"));  // Will be null since we filter for active tickets
-                ticket.setParkingType(ParkingType.valueOf(rs.getString("PARKING_TYPE"))); // Set parking type
+                ticket.setOutTime(rs.getTimestamp("out_time"));
+                ticket.setParkingType(ParkingType.valueOf(rs.getString("PARKING_TYPE"))); 
                 return Optional.of(ticket);
             }
         } catch (SQLException ex) {
             logger.error("Error fetching active ticket", ex);
         }
         return Optional.empty();
-    }
+    }    
 
     public boolean updateTicket(Ticket ticket) {
         try (Connection con = dataBaseConfig.getConnection();
@@ -94,7 +94,7 @@ public class TicketDAO {
         return false;
     }
 
-    public int getTicketCount(String vehicleRegNumber) {
+    public int getNbTicket(String vehicleRegNumber) {
         String sql = "SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER = ?";
         try (Connection con = dataBaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

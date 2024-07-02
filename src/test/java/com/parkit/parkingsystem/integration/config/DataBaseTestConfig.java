@@ -56,7 +56,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
                 rs.close();
                 logger.info("Closing Result Set");
             } catch (SQLException e) {
-                logger.error("Error while closing result set", e);
+                logger.error("Error while closing result set");
             }
         }
     }

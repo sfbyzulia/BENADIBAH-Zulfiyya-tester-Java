@@ -21,6 +21,8 @@ import org.mockito.quality.Strictness;
 import java.util.Date;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,7 +53,7 @@ public class ParkingServiceTest {
 
     @Test
     public void testProcessIncomingVehicle() throws Exception {
-        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Simulate a valid vehicle type selection
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(parkingSpot);
         when(ticketDAO.isVehicleCurrentlyParked(anyString())).thenReturn(false);
@@ -76,7 +78,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testProcessExitingVehicle() throws Exception {
+    public void processExitingVehicleTest() throws Exception {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000))); // 1 hour ago
@@ -85,7 +87,7 @@ public class ParkingServiceTest {
 
         when(ticketDAO.getTicket(anyString())).thenReturn(Optional.of(ticket));
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
-        when(ticketDAO.getTicketCount(anyString())).thenReturn(2); // For 5% discount
+        when(ticketDAO.getNbTicket(anyString())).thenReturn(2); // For 5% discount
 
         parkingService.processExitingVehicle();
 
@@ -95,7 +97,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testProcessExitingVehicleUnableUpdate() throws Exception {
+    public void processExitingVehicleTestUnableUpdate() throws Exception {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         Ticket ticket = new Ticket();
         ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000))); // 1 hour ago
@@ -116,6 +118,7 @@ public class ParkingServiceTest {
     public void testGetNextParkingNumberIfAvailable() throws Exception {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(parkingSpot);
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Simulate a valid vehicle type selection
 
         ParkingSpot result = parkingService.getNextParkingNumberIfAvailable();
 
@@ -127,6 +130,7 @@ public class ParkingServiceTest {
     @Test
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() throws Exception {
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(null);
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Simulate a valid vehicle type selection
 
         ParkingSpot result = parkingService.getNextParkingNumberIfAvailable();
 
@@ -134,9 +138,15 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument() {
-        when(inputReaderUtil.readSelection()).thenReturn(3);
+public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument() {
+    when(inputReaderUtil.readSelection()).thenReturn(3); // Simulate an invalid user input
 
-        assertThrows(IllegalArgumentException.class, () -> parkingService.getNextParkingNumberIfAvailable());
+    // Ensure that the IllegalArgumentException is thrown
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        parkingService.getNextParkingNumberIfAvailable();
+    });
+
+    // Verify that the exception message is as expected
+    assertEquals("Entered input is invalid", exception.getMessage());
     }
 }

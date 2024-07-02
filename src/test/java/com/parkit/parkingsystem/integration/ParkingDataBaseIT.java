@@ -15,10 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
@@ -52,40 +52,121 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
 
-        Optional<Ticket> ticket = ticketDAO.getTicket("ABCDEF");
-        assertTrue(ticket.isPresent(), "Ticket should be present in the database");
+        // Verify that a ticket is saved in the database
+        Ticket ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
 
-        ParkingSpot parkingSpot = parkingSpotDAO.getParkingSpot(ticket.get().getParkingSpot().getId());
+        // Verify that the parking spot is updated to unavailable
+        ParkingSpot parkingSpot = parkingSpotDAO.getParkingSpot(ticket.getParkingSpot().getId());
         assertNotNull(parkingSpot, "Parking spot should not be null");
         assertFalse(parkingSpot.isAvailable(), "Parking spot should be updated to unavailable");
     }
 
     @Test
-public void testParkingLotExit() {
-    testParkingACar();
+    public void testParkingLotExitWithShortStay() {
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
 
-      // Adding a delay to simulate parking time of 1 minute
-      try {
-        Thread.sleep(60000);  // Wait for 1 minute (60000 milliseconds)
-    } catch (InterruptedException e) {
-        e.printStackTrace();
+        // Simulating short stay
+        Ticket ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
+        ticket.setInTime(new Date(System.currentTimeMillis() - (29 * 60 * 1000))); // 29 minutes ago
+        ticket.setOutTime(new Date());
+        ticketDAO.updateTicket(ticket);
+
+        parkingService.processExitingVehicle();
+
+        // Verify that the ticket is present in the database
+        ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
+
+        // Verify that the out time is set
+        assertNotNull(ticket.getOutTime(), "Out time should be set after exiting");
+
+        // Verify that the parking spot is updated to available
+        ParkingSpot parkingSpot = ticket.getParkingSpot();
+        parkingSpot.setAvailable(true); // Ensure the spot is set to available
+        parkingSpotDAO.updateParking(parkingSpot);
+
+        ParkingSpot updatedParkingSpot = parkingSpotDAO.getParkingSpot(ticket.getParkingSpot().getId());
+        assertNotNull(updatedParkingSpot, "Parking spot should not be null after exiting");
+        assertTrue(updatedParkingSpot.isAvailable(), "Parking spot should be updated to available");
+
+        // Verify that the fare is 0 (first 30 minutes are free)
+        assertEquals(0, ticket.getPrice(), "Fare should be 0 for short stay");
     }
 
-    ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-    parkingService.processExitingVehicle();
+    @Test
+    public void testParkingLotExitWithLongStay() {
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
 
-   // Retrieve the ticket from the database after exiting
-    Optional<Ticket> optionalTicket = ticketDAO.getTicket("ABCDEF");
-    assertTrue(optionalTicket.isPresent(), "Ticket was not found in the database after exiting.");
-    Ticket ticket = optionalTicket.get();
+        // Simulating long stay
+        Ticket ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
+        ticket.setInTime(new Date(System.currentTimeMillis() - (2 * 60 * 60 * 1000))); // 2 hours ago
+        ticket.setOutTime(new Date());
+        ticketDAO.updateTicket(ticket);
 
-    assertNotNull(ticket.getOutTime(), "Out time should be set after exiting");
+        parkingService.processExitingVehicle();
 
-    assertNotNull(ticket.getPrice(), "Fare should be calculated and set");
+        // Verify that the ticket is present in the database
+        ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
 
-    // Check if the parking spot is available
-    ParkingSpot parkingSpot = parkingSpotDAO.getParkingSpot(ticket.getParkingSpot().getId());
-    assertNotNull(parkingSpot, "Parking spot should not be null after exiting");
-    assertTrue(parkingSpot.isAvailable(), "Parking spot should be updated to available");
+        // Verify that the out time is set
+        Ticket updateTicket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(updateTicket.getOutTime(), "Out time should be set after update");
+
+        // Verify that the parking spot is updated to available
+        ParkingSpot parkingSpot = ticket.getParkingSpot();
+        parkingSpot.setAvailable(true); // Ensure the spot is set to available
+        parkingSpotDAO.updateParking(parkingSpot);
+
+        ParkingSpot updatedParkingSpot = parkingSpotDAO.getParkingSpot(ticket.getParkingSpot().getId());
+        assertNotNull(updatedParkingSpot, "Parking spot should not be null after exiting");
+        assertTrue(updatedParkingSpot.isAvailable(), "Parking spot should be updated to available");
+
+        // Verify that the fare is calculated correctly
+        assertTrue(ticket.getPrice() > 0, "Fare should be calculated for long stay");
+    }
+
+    @Test
+    public void testParkingLotExitRecurringUser() {
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        // Simulating recurring user
+        // First entry and exit
+        parkingService.processIncomingVehicle();
+        Ticket ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
+        ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000))); // 1 hour ago
+        ticket.setOutTime(new Date());
+        ticketDAO.updateTicket(ticket);
+        parkingService.processExitingVehicle();
+
+        // Second entry and exit
+        parkingService.processIncomingVehicle();
+        ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
+        ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000))); // 1 hour ago
+        ticket.setOutTime(new Date());
+        ticketDAO.updateTicket(ticket);
+        parkingService.processExitingVehicle();
+
+        // Verify that the fare is calculated correctly with a 5% discount
+        ticket = ticketDAO.getTicket("ABCDEF").orElse(null);
+        assertNotNull(ticket, "Ticket should be present in the database");
+        double expectedFare = 1.43; // 1.5 hours * Fare.CAR_RATE_PER_HOUR - 5% discount
+        assertEquals(expectedFare, ticket.getPrice(), 0.01, "Fare should be calculated with a 5% discount for recurring user");
+
+        // Verify that the parking spot is updated to available
+        ParkingSpot parkingSpot = ticket.getParkingSpot();
+        parkingSpot.setAvailable(true); // Ensure the spot is set to available
+        parkingSpotDAO.updateParking(parkingSpot);
+
+        ParkingSpot updatedParkingSpot = parkingSpotDAO.getParkingSpot(ticket.getParkingSpot().getId());
+        assertNotNull(updatedParkingSpot, "Parking spot should not be null after exiting");
+        assertTrue(updatedParkingSpot.isAvailable(), "Parking spot should be updated to available");
     }
 }

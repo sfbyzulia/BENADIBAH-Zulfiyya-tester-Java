@@ -29,9 +29,8 @@ public class ParkingService {
     }
 
     public void processIncomingVehicle() {
-        try{
+        try {
             String vehicleRegNumber = getVehicleRegNumber();
-            // Check if vehicle is currently parked
             if (ticketDAO.isVehicleCurrentlyParked(vehicleRegNumber)) {
                 System.out.println("Vehicle is already parked.");
                 return;
@@ -50,7 +49,7 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
-                ticket.setParkingType(parkingSpot.getParkingType()); // Set the parking type
+                ticket.setParkingType(parkingSpot.getParkingType());
                 
                 ticketDAO.saveTicket(ticket);
 
@@ -58,7 +57,7 @@ public class ParkingService {
                 System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
             }
-        }catch(Exception e){
+        } catch(Exception e) {
             logger.error("Unable to process incoming vehicle", e);
         }
     }
@@ -71,21 +70,20 @@ public class ParkingService {
                 Ticket ticket = optionalTicket.get();
                 Date outTime = new Date();
                 ticket.setOutTime(outTime);
-                int ticketCount = ticketDAO.getTicketCount(vehicleRegNumber);
+                int ticketCount = ticketDAO.getNbTicket(vehicleRegNumber);
                 boolean discount = (ticketCount > 1);
                 fareCalculatorService.calculateFare(ticket, discount);
-    
+
                 if (ticketDAO.updateTicket(ticket)) {
                     ParkingSpot parkingSpot = ticket.getParkingSpot();
                     parkingSpot.setAvailable(true);
                     parkingSpotDAO.updateParking(parkingSpot);
-    
-                    // Calculate and format the parking duration
+
                     long durationMillis = outTime.getTime() - ticket.getInTime().getTime();
                     long minutes = (durationMillis / 1000) / 60;
                     long hours = minutes / 60;
                     minutes = minutes % 60;
-    
+
                     System.out.println("Please pay the parking fare: " + ticket.getPriceText());
                     System.out.println("You have stayed " + hours + " hours and " + minutes + " minutes in our parking.");
                     System.out.println("Recorded out-time for vehicle number: " + ticket.getVehicleRegNumber() + " is: " + outTime);
@@ -115,6 +113,7 @@ public class ParkingService {
             }
         } catch (IllegalArgumentException ie) {
             logger.error("Error parsing user input for type of vehicle", ie);
+            throw ie;
         } catch (Exception e) {
             logger.error("Error fetching next available parking slot", e);
         }
