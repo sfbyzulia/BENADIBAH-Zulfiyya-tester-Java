@@ -9,6 +9,8 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -70,6 +72,13 @@ public class ParkingService {
                 Ticket ticket = optionalTicket.get();
                 Date outTime = new Date();
                 ticket.setOutTime(outTime);
+
+                if (ticket.getOutTime() == null) {
+                    logger.error("outTime is null before updating the ticket");
+                } else {
+                    logger.debug("Updating ticket with ID: " + ticket.getId() + " and outTime: " + new Timestamp(ticket.getOutTime().getTime()));
+                }
+
                 int ticketCount = ticketDAO.getNbTicket(vehicleRegNumber);
                 boolean discount = (ticketCount > 1);
                 fareCalculatorService.calculateFare(ticket, discount);
@@ -113,7 +122,6 @@ public class ParkingService {
             }
         } catch (IllegalArgumentException ie) {
             logger.error("Error parsing user input for type of vehicle", ie);
-            throw ie;
         } catch (Exception e) {
             logger.error("Error fetching next available parking slot", e);
         }

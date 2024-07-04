@@ -84,15 +84,20 @@ public class TicketDAO {
         try (Connection con = dataBaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement("UPDATE ticket SET price=?, out_time=? WHERE id=?")) {
             ps.setDouble(1, ticket.getPrice());
-            ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
+            if (ticket.getOutTime() != null) {
+                ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
+            } else {
+                ps.setTimestamp(2, null); 
+                logger.error("Attempting to update ticket without outTime: " + ticket.getId());
+            }
             ps.setInt(3, ticket.getId());
             int updateCount = ps.executeUpdate();
             return (updateCount == 1);
         } catch (SQLException ex) {
-            logger.error("Error updating ticket", ex);
+            logger.error("Error updating ticket with ID: " + ticket.getId(), ex);
         }
         return false;
-    }
+    }    
 
     public int getNbTicket(String vehicleRegNumber) {
         String sql = "SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER = ?";

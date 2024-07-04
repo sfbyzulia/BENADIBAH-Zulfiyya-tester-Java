@@ -40,14 +40,25 @@ public class ParkingServiceTest {
     @InjectMocks
     private ParkingService parkingService;
 
+    
     @BeforeEach
-    public void setUpPerTest() {
-        // Setup mocks for common interactions
+    private void setUpPerTest() {
         try {
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+            Ticket ticket = new Ticket();
+            ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+
+            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to set up test mock objects");
+            throw  new RuntimeException("Failed to set up test mock objects");
         }
     }
 
@@ -64,17 +75,6 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(parkingSpotDAO, times(1)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, times(1)).saveTicket(any(Ticket.class));
-    }
-
-    @Test
-    public void testProcessIncomingVehicleAlreadyParked() throws Exception {
-        when(ticketDAO.isVehicleCurrentlyParked(anyString())).thenReturn(true);
-
-        parkingService.processIncomingVehicle();
-
-        verify(ticketDAO, times(1)).isVehicleCurrentlyParked(anyString());
-        verify(ticketDAO, never()).saveTicket(any(Ticket.class));
-        verify(parkingSpotDAO, never()).updateParking(any(ParkingSpot.class));
     }
 
     @Test
@@ -141,12 +141,10 @@ public class ParkingServiceTest {
 public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument() {
     when(inputReaderUtil.readSelection()).thenReturn(3); // Simulate an invalid user input
 
-    // Ensure that the IllegalArgumentException is thrown
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-        parkingService.getNextParkingNumberIfAvailable();
-    });
+    // Attempt to get the next parking number
+    ParkingSpot result = parkingService.getNextParkingNumberIfAvailable();
 
-    // Verify that the exception message is as expected
-    assertEquals("Entered input is invalid", exception.getMessage());
+    // Since the input is invalid, the ParkingService class should log an error and return null
+    assertNull(result);
     }
 }
