@@ -19,9 +19,9 @@ public class DataBasePrepareService {
         try {
             connection = dataBaseTestConfig.getConnection();
             ps = connection.prepareStatement("DELETE FROM ticket");
-            ps.execute();
+            ps.executeUpdate();
             ps = connection.prepareStatement("UPDATE parking SET available = true");
-            ps.execute();
+            ps.executeUpdate();
         } catch (SQLException e) {
             logger.error("Error clearing database entries", e);
         } finally {

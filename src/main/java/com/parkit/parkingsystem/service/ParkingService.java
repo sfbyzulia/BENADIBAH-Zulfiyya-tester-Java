@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Timestamp;
-
 import java.util.Date;
 import java.util.Optional;
 
@@ -43,7 +42,7 @@ public class ParkingService {
                 parkingSpot.setAvailable(false);
                 boolean updated = parkingSpotDAO.updateParking(parkingSpot);
                 logger.info("Parking spot {} set to unavailable: {}", parkingSpot.getId(), updated);
-    
+
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
                 ticket.setParkingSpot(parkingSpot);
@@ -52,8 +51,12 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticket.setParkingType(parkingSpot.getParkingType());
-                
+
                 ticketDAO.saveTicket(ticket);
+
+                if (ticketDAO.getNbTicket(vehicleRegNumber) > 1) {
+                    System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                }
 
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
@@ -72,27 +75,27 @@ public class ParkingService {
                 Ticket ticket = optionalTicket.get();
                 Date outTime = new Date();
                 ticket.setOutTime(outTime);
-
+    
                 if (ticket.getOutTime() == null) {
                     logger.error("outTime is null before updating the ticket");
                 } else {
                     logger.debug("Updating ticket with ID: " + ticket.getId() + " and outTime: " + new Timestamp(ticket.getOutTime().getTime()));
                 }
-
+    
                 int ticketCount = ticketDAO.getNbTicket(vehicleRegNumber);
                 boolean discount = (ticketCount > 1);
-                fareCalculatorService.calculateFare(ticket, discount);
-
+                fareCalculatorService.calculateFare(ticket, discount);  // Using calculateFare with discount
+    
                 if (ticketDAO.updateTicket(ticket)) {
                     ParkingSpot parkingSpot = ticket.getParkingSpot();
                     parkingSpot.setAvailable(true);
                     parkingSpotDAO.updateParking(parkingSpot);
-
+    
                     long durationMillis = outTime.getTime() - ticket.getInTime().getTime();
                     long minutes = (durationMillis / 1000) / 60;
                     long hours = minutes / 60;
                     minutes = minutes % 60;
-
+    
                     System.out.println("Please pay the parking fare: " + ticket.getPriceText());
                     System.out.println("You have stayed " + hours + " hours and " + minutes + " minutes in our parking.");
                     System.out.println("Recorded out-time for vehicle number: " + ticket.getVehicleRegNumber() + " is: " + outTime);

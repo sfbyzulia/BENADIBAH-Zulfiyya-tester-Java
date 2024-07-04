@@ -16,21 +16,22 @@ public class DataBaseTestConfig extends DataBaseConfig {
 
     @Override
     public Connection getConnection() {
-        logger.info("Create DB connection");
+        logger.info("Creating DB connection");
+        Connection connection = null;
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "R00tP@ssw0rd!");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "R00tP@ssw0rd!");
         } catch (SQLException e) {
             logger.error("Database connection error", e);
-            return null;
         }
+        return connection;
     }
 
     @Override
-    public void closeConnection(Connection con){
-        if(con != null){
+    public void closeConnection(Connection con) {
+        if (con != null) {
             try {
                 con.close();
-                logger.info("Closing DB connection");
+                logger.info("Closed DB connection");
             } catch (SQLException e) {
                 logger.error("Error while closing connection", e);
             }
@@ -39,10 +40,10 @@ public class DataBaseTestConfig extends DataBaseConfig {
 
     @Override
     public void closePreparedStatement(PreparedStatement ps) {
-        if(ps != null){
+        if (ps != null) {
             try {
                 ps.close();
-                logger.info("Closing Prepared Statement");
+                logger.info("Closed Prepared Statement");
             } catch (SQLException e) {
                 logger.error("Error while closing prepared statement", e);
             }
@@ -51,12 +52,12 @@ public class DataBaseTestConfig extends DataBaseConfig {
 
     @Override
     public void closeResultSet(ResultSet rs) {
-        if(rs != null){
+        if (rs != null) {
             try {
                 rs.close();
-                logger.info("Closing Result Set");
+                logger.info("Closed Result Set");
             } catch (SQLException e) {
-                logger.error("Error while closing result set");
+                logger.error("Error while closing result set", e);
             }
         }
     }

@@ -10,7 +10,20 @@ import org.apache.logging.log4j.Logger;
 public class FareCalculatorService {
 
     private static final Logger logger = LogManager.getLogger("FareCalculatorService");
-    
+
+    /**
+     * Calculate the fare for a given ticket without discount.
+     * @param ticket the ticket for which to calculate the fare.
+     */
+    public void calculateFare(Ticket ticket) {
+        calculateFare(ticket, false);
+    }
+
+    /**
+     * Calculate the fare for a given ticket. If the user has a discount, the fare will be calculated with the discount.
+     * @param ticket the ticket for which to calculate the fare
+     * @param discount whether the user has a discount or not
+     */
     public void calculateFare(Ticket ticket, boolean discount) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             logger.error("Out time provided is incorrect: " + ticket.getOutTime());

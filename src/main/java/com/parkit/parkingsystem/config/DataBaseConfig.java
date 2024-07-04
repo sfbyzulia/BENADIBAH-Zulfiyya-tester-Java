@@ -14,17 +14,17 @@ public class DataBaseConfig {
      * @return A connection to the database or null if a connection could not be established.
      */
     public Connection getConnection() {
+        Connection connection = null;
         try {
             // Attempt to load the database driver class
             Class.forName("com.mysql.cj.jdbc.Driver");
             // Attempt to establish a connection to the database
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/prod", "root", "R00tP@ssw0rd!");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/prod", "root", "R00tP@ssw0rd!");
         } catch (ClassNotFoundException | SQLException e) {
             // Log an error if the connection could not be established
             logger.error("Database connection error", e);
-            // Return null indicating that the connection was not successful
-            return null;
         }
+        return connection;
     }
 
     /**
@@ -35,7 +35,7 @@ public class DataBaseConfig {
         if (con != null) {
             try {
                 con.close();
-                logger.info("Closing DB connection");
+                logger.info("Closed DB connection");
             } catch (SQLException e) {
                 logger.error("Error while closing connection", e);
             }
@@ -50,7 +50,7 @@ public class DataBaseConfig {
         if (ps != null) {
             try {
                 ps.close();
-                logger.info("Closing Prepared Statement");
+                logger.info("Closed Prepared Statement");
             } catch (SQLException e) {
                 logger.error("Error while closing prepared statement", e);
             }
@@ -65,7 +65,7 @@ public class DataBaseConfig {
         if (rs != null) {
             try {
                 rs.close();
-                logger.info("Closing Result Set");
+                logger.info("Closed Result Set");
             } catch (SQLException e) {
                 logger.error("Error while closing result set", e);
             }
