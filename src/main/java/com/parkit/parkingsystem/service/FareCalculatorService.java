@@ -12,7 +12,10 @@ public class FareCalculatorService {
     private static final Logger logger = LogManager.getLogger("FareCalculatorService");
 
     /**
-     * Calculate the fare for a given ticket without discount.
+     * Calculates the fare for a given ticket without applying any discounts.
+     * The fare is calculated based on the duration the vehicle was parked.
+     * If the parking duration is 30 minutes or less, the parking is free.
+     *
      * @param ticket the ticket for which to calculate the fare.
      */
     public void calculateFare(Ticket ticket) {
@@ -20,9 +23,13 @@ public class FareCalculatorService {
     }
 
     /**
-     * Calculate the fare for a given ticket. If the user has a discount, the fare will be calculated with the discount.
+     * Calculates the fare for a given ticket, optionally applying a discount.
+     * The fare is calculated based on the type of vehicle (car or bike) and the duration of the stay.
+     * The first 30 minutes are free, and a 5% discount is applied if the discount parameter is true.
+     *
      * @param ticket the ticket for which to calculate the fare
-     * @param discount whether the user has a discount or not
+     * @param discount true if a discount should be applied, false otherwise
+     * @throws IllegalArgumentException if the out time of the ticket is before the in time or if it is null.
      */
     public void calculateFare(Ticket ticket, boolean discount) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {

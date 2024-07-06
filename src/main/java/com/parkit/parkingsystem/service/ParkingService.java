@@ -13,6 +13,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
+/**
+ * Manages the operations related to parking vehicles and processing their exit.
+ */
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -29,6 +32,10 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+    /**
+     * Processes the entry of a vehicle into the parking.
+     * Registers the vehicle, allocates a parking spot, and saves the parking ticket.
+     */
     public void processIncomingVehicle() {
         try {
             String vehicleRegNumber = getVehicleRegNumber();
@@ -67,6 +74,10 @@ public class ParkingService {
         }
     }
 
+    /**
+     * Processes the exit of a vehicle from the parking.
+     * Calculates the parking fare and updates the parking ticket and spot status.
+     */
     public void processExitingVehicle() {
         try {
             String vehicleRegNumber = getVehicleRegNumber();
@@ -110,11 +121,20 @@ public class ParkingService {
         }
     }
 
+    /**
+     * Retrieves the vehicle registration number from the user.
+     * @return The vehicle registration number as entered by the user.
+     * @throws Exception if an error occurs during reading input from the user.
+     */
     public String getVehicleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /**
+     * Identifies the next available parking spot based on the vehicle type.
+     * @return A ParkingSpot object representing the next available spot, or null if none are available.
+     */
     public ParkingSpot getNextParkingNumberIfAvailable() {
         ParkingSpot parkingSpot = null;
         try {
@@ -131,6 +151,11 @@ public class ParkingService {
         return parkingSpot;
     }
 
+    /**
+     * Prompts the user to select a vehicle type and returns the corresponding ParkingType.
+     * @return The ParkingType as selected by the user.
+     * @throws IllegalArgumentException if an invalid input is provided.
+     */
     public ParkingType getVehicleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");

@@ -5,11 +5,18 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
+/**
+ * Utility class to handle reading user inputs from the console.
+ */
 public class InputReaderUtil {
 
     private static Scanner scan = new Scanner(System.in);
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
+    /**
+     * Reads the user's selection from the console as an integer.
+     * @return the integer value entered by the user, or -1 if the input is invalid.
+     */
     public int readSelection() {
         try {
             int input = Integer.parseInt(scan.nextLine());
@@ -21,6 +28,11 @@ public class InputReaderUtil {
         }
     }
 
+    /**
+     * Reads the vehicle registration number from the console.
+     * @return the vehicle registration number as a string.
+     * @throws Exception if the input is invalid or an error occurs during input reading.
+     */
     public String readVehicleRegistrationNumber() throws Exception {
         try {
             String vehicleRegNumber= scan.nextLine();

@@ -6,10 +6,19 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Provides an interactive command-line interface for managing the parking system.
+ * This class handles user inputs and displays appropriate options and responses.
+ */
 public class InteractiveShell {
 
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
+/**
+     * Starts the interactive command-line interface for the parking system.
+     * This method sets up necessary services and enters a loop that continuously
+     * prompts the user to choose actions until they decide to exit.
+     */
     public static void loadInterface(){
         logger.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
@@ -42,6 +51,9 @@ public class InteractiveShell {
         }
     }
 
+    /**
+     * Displays the main menu of options to the user.
+     */
     private static void loadMenu(){
         System.out.println("Please select an option. Simply enter the number to choose an action");
         System.out.println("1 New Vehicle Entering - Allocate Parking Space");
