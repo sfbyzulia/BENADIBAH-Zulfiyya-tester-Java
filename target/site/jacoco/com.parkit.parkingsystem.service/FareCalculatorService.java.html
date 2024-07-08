@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FareCalculatorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">parking-system</a> &gt; <a href="index.source.html" class="el_package">com.parkit.parkingsystem.service</a> &gt; <span class="el_source">FareCalculatorService.java</span></div><h1>FareCalculatorService.java</h1><pre class="source lang-java linenums">package com.parkit.parkingsystem.service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import com.parkit.parkingsystem.constants.Fare;
+import com.parkit.parkingsystem.model.Ticket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+<span class="fc" id="L10">public class FareCalculatorService {</span>
+
+<span class="fc" id="L12">    private static final Logger logger = LogManager.getLogger(&quot;FareCalculatorService&quot;);</span>
+
+    /**
+     * Calculates the fare for a given ticket without applying any discounts.
+     * The fare is calculated based on the duration the vehicle was parked.
+     * If the parking duration is 30 minutes or less, the parking is free.
+     *
+     * @param ticket the ticket for which to calculate the fare.
+     */
+    public void calculateFare(Ticket ticket) {
+<span class="nc" id="L22">        calculateFare(ticket, false);</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * Calculates the fare for a given ticket, optionally applying a discount.
+     * The fare is calculated based on the type of vehicle (car or bike) and the duration of the stay.
+     * The first 30 minutes are free, and a 5% discount is applied if the discount parameter is true.
+     *
+     * @param ticket the ticket for which to calculate the fare
+     * @param discount true if a discount should be applied, false otherwise
+     * @throws IllegalArgumentException if the out time of the ticket is before the in time or if it is null.
+     */
+    public void calculateFare(Ticket ticket, boolean discount) {
+<span class="pc bpc" id="L35" title="2 of 4 branches missed.">        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {</span>
+<span class="nc" id="L36">            logger.error(&quot;Out time provided is incorrect: &quot; + ticket.getOutTime());</span>
+<span class="nc" id="L37">            throw new IllegalArgumentException(&quot;Out time provided is incorrect: &quot; + ticket.getOutTime());</span>
+        }
+
+<span class="fc" id="L40">        long inTimeMillis = ticket.getInTime().getTime();</span>
+<span class="fc" id="L41">        long outTimeMillis = ticket.getOutTime().getTime();</span>
+<span class="fc" id="L42">        long durationInMinutes = (outTimeMillis - inTimeMillis) / 60000; // Convert milliseconds to minutes</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (durationInMinutes &lt;= 30) {</span>
+<span class="fc" id="L45">            ticket.setPrice(0); // First 30 minutes are free</span>
+<span class="fc" id="L46">            logger.info(&quot;Parking duration is less than or equal to 30 minutes. No charge.&quot;);</span>
+<span class="fc" id="L47">            return;</span>
+        }
+
+        // Calculate price considering free 30 minutes
+<span class="fc" id="L51">        long chargeableMinutes = durationInMinutes - 30;</span>
+<span class="fc" id="L52">        BigDecimal price = BigDecimal.ZERO;</span>
+<span class="pc bpc" id="L53" title="2 of 4 branches missed.">        if (ticket.getParkingSpot() != null &amp;&amp; ticket.getParkingSpot().getParkingType() != null) {</span>
+<span class="pc bpc" id="L54" title="1 of 3 branches missed.">            switch (ticket.getParkingSpot().getParkingType()) {</span>
+                case CAR:
+<span class="fc" id="L56">                    price = BigDecimal.valueOf(chargeableMinutes)</span>
+<span class="fc" id="L57">                            .multiply(BigDecimal.valueOf(Fare.CAR_RATE_PER_HOUR))</span>
+<span class="fc" id="L58">                            .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L59">                    break;</span>
+                case BIKE:
+<span class="fc" id="L61">                    price = BigDecimal.valueOf(chargeableMinutes)</span>
+<span class="fc" id="L62">                            .multiply(BigDecimal.valueOf(Fare.BIKE_RATE_PER_HOUR))</span>
+<span class="fc" id="L63">                            .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L64">                    break;</span>
+                default:
+<span class="nc" id="L66">                    logger.error(&quot;Unknown Parking Type&quot;);</span>
+<span class="nc" id="L67">                    throw new IllegalArgumentException(&quot;Unknown Parking Type&quot;);</span>
+            }
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (discount) {</span>
+<span class="fc" id="L71">                price = price.multiply(BigDecimal.valueOf(0.95)); // Apply 5% discount</span>
+            }
+
+            // Use BigDecimal for rounding to 2 decimal places
+<span class="fc" id="L75">            price = price.setScale(2, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L76">            ticket.setPrice(price.doubleValue());</span>
+<span class="fc" id="L77">            ticket.setPriceText(String.format(&quot;%.2f EUR&quot;, price.doubleValue())); // Set the formatted price with EUR</span>
+<span class="fc" id="L78">            logger.info(&quot;Calculated price: &quot; + price.doubleValue());</span>
+<span class="fc" id="L79">        } else {</span>
+<span class="nc" id="L80">            logger.error(&quot;Parking spot or type is null&quot;);</span>
+<span class="nc" id="L81">            throw new IllegalArgumentException(&quot;Parking spot or type is null&quot;);</span>
+        }
+<span class="fc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
