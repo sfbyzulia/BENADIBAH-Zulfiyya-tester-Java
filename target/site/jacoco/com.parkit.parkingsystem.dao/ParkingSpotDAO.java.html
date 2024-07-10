@@ -36,7 +36,7 @@ import java.sql.ResultSet;
         }
 <span class="fc" id="L37">            dataBaseConfig.closeResultSet(rs);</span>
 <span class="fc" id="L38">            dataBaseConfig.closePreparedStatement(ps);</span>
-<span class="pc" id="L39">        }catch (Exception ex){</span>
+<span class="nc" id="L39">        }catch (Exception ex){</span>
 <span class="nc" id="L40">            logger.error(&quot;Error fetching next available slot&quot;,ex);</span>
         }finally {
 <span class="fc" id="L42">            dataBaseConfig.closeConnection(con);</span>
@@ -86,7 +86,7 @@ import java.sql.ResultSet;
          }
 <span class="fc" id="L87">        dataBaseConfig.closeResultSet(rs);</span>
 <span class="fc" id="L88">        dataBaseConfig.closePreparedStatement(ps);</span>
-<span class="pc" id="L89">    } catch (Exception ex) {</span>
+<span class="nc" id="L89">    } catch (Exception ex) {</span>
 <span class="nc" id="L90">        logger.error(&quot;Error fetching parking spot&quot;, ex);</span>
     } finally {
 <span class="fc" id="L92">        dataBaseConfig.closeConnection(con);</span>

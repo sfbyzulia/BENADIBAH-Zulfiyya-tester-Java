@@ -23,7 +23,7 @@ import java.sql.*;
 <span class="nc" id="L23">        } catch (ClassNotFoundException | SQLException e) {</span>
             // Log an error if the connection could not be established
 <span class="nc" id="L25">            logger.error(&quot;Database connection error&quot;, e);</span>
-        }
+<span class="nc" id="L26">        }</span>
 <span class="nc" id="L27">        return connection;</span>
     }
 
@@ -38,7 +38,7 @@ import java.sql.*;
 <span class="nc" id="L38">                logger.info(&quot;Closed DB connection&quot;);</span>
 <span class="nc" id="L39">            } catch (SQLException e) {</span>
 <span class="nc" id="L40">                logger.error(&quot;Error while closing connection&quot;, e);</span>
-            }
+<span class="nc" id="L41">            }</span>
         }
 <span class="nc" id="L43">    }</span>
 
@@ -53,7 +53,7 @@ import java.sql.*;
 <span class="nc" id="L53">                logger.info(&quot;Closed Prepared Statement&quot;);</span>
 <span class="nc" id="L54">            } catch (SQLException e) {</span>
 <span class="nc" id="L55">                logger.error(&quot;Error while closing prepared statement&quot;, e);</span>
-            }
+<span class="nc" id="L56">            }</span>
         }
 <span class="nc" id="L58">    }</span>
 
@@ -68,7 +68,7 @@ import java.sql.*;
 <span class="nc" id="L68">                logger.info(&quot;Closed Result Set&quot;);</span>
 <span class="nc" id="L69">            } catch (SQLException e) {</span>
 <span class="nc" id="L70">                logger.error(&quot;Error while closing result set&quot;, e);</span>
-            }
+<span class="nc" id="L71">            }</span>
         }
 <span class="nc" id="L73">    }</span>
 }

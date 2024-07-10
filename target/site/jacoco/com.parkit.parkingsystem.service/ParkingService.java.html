@@ -69,9 +69,9 @@ public class ParkingService {
 <span class="fc" id="L69">                System.out.println(&quot;Please park your vehicle in spot number:&quot; + parkingSpot.getId());</span>
 <span class="fc" id="L70">                System.out.println(&quot;Recorded in-time for vehicle number:&quot; + vehicleRegNumber + &quot; is:&quot; + inTime);</span>
             }
-<span class="pc" id="L72">        } catch(Exception e) {</span>
+<span class="nc" id="L72">        } catch(Exception e) {</span>
 <span class="nc" id="L73">            logger.error(&quot;Unable to process incoming vehicle&quot;, e);</span>
-        }
+<span class="fc" id="L74">        }</span>
 <span class="fc" id="L75">    }</span>
 
     /**
@@ -89,7 +89,7 @@ public class ParkingService {
     
 <span class="pc bpc" id="L90" title="1 of 2 branches missed.">                if (ticket.getOutTime() == null) {</span>
 <span class="nc" id="L91">                    logger.error(&quot;outTime is null before updating the ticket&quot;);</span>
-<span class="nc" id="L92">                } else {</span>
+                } else {
 <span class="fc" id="L93">                    logger.debug(&quot;Updating ticket with ID: &quot; + ticket.getId() + &quot; and outTime: &quot; + new Timestamp(ticket.getOutTime().getTime()));</span>
                 }
     
@@ -118,7 +118,7 @@ public class ParkingService {
             }
 <span class="nc" id="L119">        } catch (Exception e) {</span>
 <span class="nc" id="L120">            logger.error(&quot;Unable to process exiting vehicle&quot;, e);</span>
-        }
+<span class="fc" id="L121">        }</span>
 <span class="fc" id="L122">    }</span>
 
     /**
@@ -147,7 +147,7 @@ public class ParkingService {
 <span class="fc" id="L147">            logger.error(&quot;Error parsing user input for type of vehicle&quot;, ie);</span>
 <span class="fc" id="L148">        } catch (Exception e) {</span>
 <span class="fc" id="L149">            logger.error(&quot;Error fetching next available parking slot&quot;, e);</span>
-        }
+<span class="fc" id="L150">        }</span>
 <span class="fc" id="L151">        return parkingSpot;</span>
     }
 

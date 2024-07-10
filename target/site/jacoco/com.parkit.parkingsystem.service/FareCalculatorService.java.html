@@ -76,7 +76,7 @@ import org.apache.logging.log4j.Logger;
 <span class="fc" id="L76">            ticket.setPrice(price.doubleValue());</span>
 <span class="fc" id="L77">            ticket.setPriceText(String.format(&quot;%.2f EUR&quot;, price.doubleValue())); // Set the formatted price with EUR</span>
 <span class="fc" id="L78">            logger.info(&quot;Calculated price: &quot; + price.doubleValue());</span>
-<span class="fc" id="L79">        } else {</span>
+        } else {
 <span class="nc" id="L80">            logger.error(&quot;Parking spot or type is null&quot;);</span>
 <span class="nc" id="L81">            throw new IllegalArgumentException(&quot;Parking spot or type is null&quot;);</span>
         }
